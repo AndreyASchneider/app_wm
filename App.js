@@ -142,8 +142,8 @@ function HomeScreen({ navigation }) {
           key={heatmapData.length}
           style={styles.map}
           initialRegion={region || {
-            latitude: location ? location.latitude : 37.78825,
-            longitude: location ? location.longitude : -122.4324,
+            latitude: location ? location.latitude : -29.4685,
+            longitude: location ? location.longitude : -51.9653,
             latitudeDelta: 0.0922,
             longitudeDelta: 0.0421,
           }}
