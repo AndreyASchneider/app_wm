@@ -169,8 +169,8 @@ function HomeScreen({ navigation }) {
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home">
-        <Stack.Screen name="Home" component={HomeScreen} />
+      <Stack.Navigator initialRouteName="WaterManager">
+        <Stack.Screen name="WaterManager" component={HomeScreen} />
         <Stack.Screen name="AddPoint" component={AddPointScreen} />
       </Stack.Navigator>
     </NavigationContainer>
