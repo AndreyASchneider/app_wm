@@ -11,7 +11,7 @@ const LoginScreen = ({ navigation }) => {
     const success = await login(email, password);
     if (success) {
       Alert.alert('Login realizado com sucesso!');
-      navigation.replace('AddPoint'); // Redireciona para AddPointScreen
+      navigation.replace('AddPoint');
     } else {
       Alert.alert('Erro de Login', loginError || 'Credenciais inválidas');
     }
