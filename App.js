@@ -5,8 +5,39 @@ import * as Location from 'expo-location';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import AddPointScreen from './AddPointScreen';
+import LoginScreen from './LoginScreen';
+import { AuthProvider, useAuth } from './AuthContext';
 
 const Stack = createStackNavigator();
+
+const ProtectedRoute = ({ component: Component, ...rest }) => {
+  const { isAuthenticated } = useAuth();
+
+  return (
+    <Stack.Screen
+      {...rest}
+      component={(props) =>
+        isAuthenticated ? (
+          <Component {...props} />
+        ) : (
+          <LoginScreen {...props} />
+        )
+      }
+    />
+  );
+};
+
+const ProtectedAddPointScreen = (props) => {
+  const { isAuthenticated } = useAuth();
+
+  // Se o usuário estiver autenticado, renderiza AddPointScreen
+  if (isAuthenticated) {
+    return <AddPointScreen {...props} />;
+  }
+
+  // Caso contrário, redireciona para LoginScreen
+  return <LoginScreen {...props} />;
+};
 
 function formatDate(date) {
   const year = date.getFullYear();
@@ -168,12 +199,18 @@ function HomeScreen({ navigation }) {
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="WaterManager">
-        <Stack.Screen name="WaterManager" component={HomeScreen} />
-        <Stack.Screen name="AddPoint" component={AddPointScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <AuthProvider>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="Home">
+          <Stack.Screen name="Home" component={HomeScreen} />
+          <Stack.Screen
+            name="AddPoint"
+            component={ProtectedAddPointScreen} // Usa a lógica de autenticação para AddPointScreen
+          />
+          <Stack.Screen name="Login" component={LoginScreen} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </AuthProvider>
   );
 }
 
